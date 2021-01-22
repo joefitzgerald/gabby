@@ -1,4 +1,4 @@
-package gabby_test
+package calendar_test
 
 import (
 	"bytes"
@@ -6,7 +6,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/joefitzgerald/gabby"
+	"github.com/joefitzgerald/gabby/pkg/gabby/calendar"
 	. "github.com/onsi/gomega"
 	"github.com/sclevine/spec"
 )
@@ -19,7 +19,7 @@ func testCalendar(t *testing.T, when spec.G, it spec.S) {
 	it("", func() {
 		b := &bytes.Buffer{}
 		now := time.Now()
-		events := []gabby.Event{
+		events := []Event{
 			{
 				"Test",
 				"noEnd",
@@ -27,7 +27,7 @@ func testCalendar(t *testing.T, when spec.G, it spec.S) {
 				now,
 			},
 		}
-		err := gabby.WriteEvents(b, events)
+		err := calendar.WriteEvents(b, events)
 		Expect(err).NotTo(HaveOccurred())
 		expected := []string{
 			"Name",

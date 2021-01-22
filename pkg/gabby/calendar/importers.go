@@ -1,14 +1,8 @@
-package gabby
+package calendar
 
-import (
-	"encoding/csv"
-	"io"
-	"time"
-	"unicode/utf8"
+import msgraph "github.com/yaegashi/msgraph.go/beta"
 
-	msgraph "github.com/yaegashi/msgraph.go/beta"
-)
-
+// ConvertEvents imports MS Graph events to Event type
 func ConvertEvents(events []msgraph.Event) []Event {
 	result := make([]Event, len(events))
 	for i := range events {
@@ -41,4 +35,3 @@ func ConvertEvents(events []msgraph.Event) []Event {
 	}
 	return result
 }
-
