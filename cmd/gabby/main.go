@@ -6,6 +6,7 @@ import (
 	"io"
 	"log"
 	"os"
+	"path/filepath"
 
 	"github.com/alecthomas/kong"
 	"github.com/joefitzgerald/gabby"
@@ -16,7 +17,7 @@ import (
 	"golang.org/x/oauth2"
 )
 
-var defaultScopes = []string{"offline_access", "User.Read", "Calendars.Read", "Files.Read"}
+var defaultScopes = []string{"offline_access", "User.Read", "Calendars.Read"}
 
 var cli struct {
 	command.Context
@@ -26,7 +27,7 @@ var cli struct {
 func main() {
 	log.SetFlags(log.Lshortfile)
 	ctx := kong.Parse(&cli, kong.UsageOnError())
-	api, err := API(cli.TenantID, cli.ClientID, cli.TokenCachePath)
+	api, err := API(cli.TenantID, cli.ClientID, cli.TokenCacheFilename)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -43,13 +44,14 @@ func main() {
 	ctx.FatalIfErrorf(err)
 }
 
-func API(tenantID string, clientID string, tokenCachePath string) (gabby.API, error) {
+func API(tenantID string, clientID string, tokenCacheFilename string) (gabby.API, error) {
 	ctx := context.Background()
 	m := msauth.NewManager()
-	err := m.LoadFile(tokenCachePath)
+	tokenCachePath, err := getTokenCachePath(tokenCacheFilename)
 	if err != nil {
-		return nil, fmt.Errorf("could not load file from token cache path: %w", err)
+		return nil, err
 	}
+	_ = m.LoadFile(tokenCachePath)
 	ts, err := m.DeviceAuthorizationGrant(ctx, tenantID, clientID, defaultScopes, nil)
 	if err != nil {
 		return nil, fmt.Errorf("could not retrieve device authorization grant: %w", err)
@@ -64,4 +66,17 @@ func API(tenantID string, clientID string, tokenCachePath string) (gabby.API, er
 	return &msgraph.API{
 		Client: graphClient,
 	}, nil
+}
+
+func getTokenCachePath(filename string) (string, error) {
+	userCacheDir, err := os.UserCacheDir()
+	if err != nil {
+		return "", err
+	}
+	path := filepath.Join(userCacheDir, "gabby", filename)
+	err = os.MkdirAll(filepath.Dir(path), 0700)
+	if err != nil {
+		return "", err
+	}
+	return path, nil
 }

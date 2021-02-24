@@ -34,7 +34,7 @@ func ConvertEvents(events []msgraph.Event) gabby.Events {
 		}
 
 		if events[i].Recurrence != nil && events[i].Recurrence.Range != nil {
-			e.Properties = append(e.Properties, "recurring")
+			e.SetProperty("recurring")
 			if events[i].Recurrence.Range.Type != nil {
 				e.RecurrenceType = string(*events[i].Recurrence.Range.Type)
 			}
@@ -93,16 +93,16 @@ func ConvertEvents(events []msgraph.Event) gabby.Events {
 		}
 
 		if events[i].IsAllDay != nil && *events[i].IsAllDay {
-			e.Properties = append(e.Properties, "all_day")
+			e.SetProperty("all_day")
 		}
 		if events[i].IsOrganizer != nil && *events[i].IsOrganizer {
-			e.Properties = append(e.Properties, "organizer")
+			e.SetProperty("organizer")
 		}
 		if events[i].IsCancelled != nil && *events[i].IsCancelled {
-			e.Properties = append(e.Properties, "cancelled")
+			e.SetProperty("cancelled")
 		}
 		if events[i].IsOnlineMeeting != nil && *events[i].IsOnlineMeeting {
-			e.Properties = append(e.Properties, "online_meeting")
+			e.SetProperty("online_meeting")
 		}
 
 		result = append(result, e)
