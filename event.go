@@ -155,7 +155,6 @@ func WriteEvents(w io.Writer, events Events, weeks int, detail bool, pretty bool
 	header := []string{
 		"Name",
 		"Organizer",
-		"Start Date",
 		"End Date",
 		"Start",
 		"End",
@@ -187,7 +186,6 @@ func WriteEvents(w io.Writer, events Events, weeks int, detail bool, pretty bool
 		row := []string{
 			name,
 			events[i].Organizer,
-			events[i].StartDate.Local().Format("2006-01-02"),
 			endDate,
 			events[i].Start.Local().Format(time.Kitchen),
 			events[i].End.Local().Format(time.Kitchen),
