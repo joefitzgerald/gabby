@@ -4,6 +4,7 @@ import (
 	msgraph "github.com/yaegashi/msgraph.go/beta"
 )
 
+//API represents the external calendar interface
 type API struct {
 	Client *msgraph.GraphServiceRequestBuilder
 }

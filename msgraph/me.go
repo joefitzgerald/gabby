@@ -5,6 +5,7 @@ import (
 	"errors"
 )
 
+//GetMe returns email address for the authenticated user
 func (a *API) GetMe(ctx context.Context) (string, error) {
 	req := a.Client.Me().Request()
 	user, err := req.Get(ctx)

@@ -13,6 +13,7 @@ import (
 
 const msgraphDateFormat string = "2006-01-02T15:04:05.0000000"
 
+//ConvertEvents takes vendor specific calendar events and creates gabby.Events with enriched metadata
 func ConvertEvents(events []msgraph.Event) gabby.Events {
 	var result gabby.Events
 	for i := range events {
@@ -153,6 +154,7 @@ func (a *API) getEventInstances(ctx context.Context, id string, start time.Time,
 	return req.Get(ctx)
 }
 
+// GetRecurringEventsWithInstancesForWeeks returns recurring events for a certain number of weeks from today
 func (a *API) GetRecurringEventsWithInstancesForWeeks(ctx context.Context, weeks int) (gabby.Events, error) {
 	events, err := a.GetRecurringEvents(ctx)
 	if err != nil {
@@ -170,6 +172,7 @@ func (a *API) GetRecurringEventsWithInstancesForWeeks(ctx context.Context, weeks
 	return events, nil
 }
 
+// GetRecurringEvents returns recurring events
 func (a *API) GetRecurringEvents(ctx context.Context) (gabby.Events, error) {
 	events, err := a.getEvents(ctx)
 	if err != nil {
