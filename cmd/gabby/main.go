@@ -17,13 +17,16 @@ import (
 	"golang.org/x/oauth2"
 )
 
-var defaultScopes = []string{"offline_access", "User.Read", "Calendars.Read"}
+var defaultScopes = []string{"offline_access", "User.Read", "Calendars.Read", "User.ReadBasic.All"}
 
 var cli struct {
 	command.Context
 	Calendar struct {
 		Impact command.Impact `cmd:"" help:"Perform an impact analysis of events over a given time period."`
 	} `cmd:""`
+	Person struct {
+		Photo command.Photo `cmd:"" help:"Get User Photo for ID"`
+	} `cmd:"" aliases:"people"`
 }
 
 func main() {
@@ -66,7 +69,8 @@ func API(tenantID string, clientID string, tokenCacheFilename string) (gabby.API
 	httpClient := oauth2.NewClient(ctx, ts)
 	graphClient := msgraphDotGo.NewClient(httpClient)
 	return &msgraph.API{
-		Client: graphClient,
+		HttpClient: httpClient,
+		Client:     graphClient,
 	}, nil
 }
 
