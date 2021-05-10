@@ -45,5 +45,5 @@ func (a *API) GetPhoto(ctx context.Context, id string) (*gabby.Photo, error) {
 		return nil, err
 	}
 
-	return &gabby.Photo{Data: b, SuggestedFilename: id + exts[0]}, nil
+	return &gabby.Photo{Data: b, ID: id, SuggestedExtension: exts[0]}, nil
 }
