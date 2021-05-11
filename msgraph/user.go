@@ -28,7 +28,7 @@ func (a *API) GetPhoto(ctx context.Context, id string) (*gabby.Photo, error) {
 	r, err := a.HttpClient.Do(pr)
 
 	if r.StatusCode != http.StatusOK {
-		return nil, fmt.Errorf("no photo found for ID: '%s'", id)
+		return nil, fmt.Errorf("no photo found for ID: '%s' (%d)", id, r.StatusCode)
 	}
 
 	if err != nil {
