@@ -2,6 +2,7 @@ package msgraph
 
 import (
 	"context"
+	"fmt"
 	"io/ioutil"
 	"log"
 	"mime"
@@ -25,6 +26,10 @@ func (a *API) GetPhoto(ctx context.Context, id string) (*gabby.Photo, error) {
 	}
 
 	r, err := a.HttpClient.Do(pr)
+
+	if r.StatusCode != http.StatusOK {
+		return nil, fmt.Errorf("no photo found for ID: '%s'", id)
+	}
 
 	if err != nil {
 		log.Println("Unable to retrieve photo")
