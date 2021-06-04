@@ -19,5 +19,11 @@ Commands:
   calendar impact
     Perform an impact analysis of events over a given time period.
 
+  person photo <ids> ...
+    Get User Photo for ID
+
+  person name <ids> ...
+    Get User Name for ID
+
 Run "gabby <command> --help" for more information on a command.
 ```
