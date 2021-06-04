@@ -26,7 +26,7 @@ var cli struct {
 
 func main() {
 	log.SetFlags(log.Lshortfile)
-	ctx := kong.Parse(&cli, kong.UsageOnError())
+	ctx := kong.Parse(&cli, kong.UsageOnError(), kong.Name("gabby"))
 	api, err := API(cli.TenantID, cli.ClientID, cli.TokenCacheFilename)
 	if err != nil {
 		log.Fatal(err)
