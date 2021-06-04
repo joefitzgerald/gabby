@@ -1,6 +1,6 @@
 # gabby
 
-Gabby is a helpful calendar assistant, that currently supports Office 365.
+Gabby is a helpful assistant for your organization's directory and calendar systems, that currently supports Office 365.
 
 ## Installing
 
@@ -16,8 +16,8 @@ Flags:
   -h, --help    Show context-sensitive help.
 
 Commands:
-  impact
+  calendar impact
     Perform an impact analysis of events over a given time period.
 
-Run "gabby <command> --help" for more information on a command
+Run "gabby <command> --help" for more information on a command.
 ```

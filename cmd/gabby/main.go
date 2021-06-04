@@ -21,7 +21,9 @@ var defaultScopes = []string{"offline_access", "User.Read", "Calendars.Read"}
 
 var cli struct {
 	command.Context
-	Impact command.Impact `cmd:"" help:"Perform an impact analysis of events over a given time period."`
+	Calendar struct {
+		Impact command.Impact `cmd:"" help:"Perform an impact analysis of events over a given time period."`
+	} `cmd:""`
 }
 
 func main() {
