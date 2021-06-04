@@ -10,4 +10,5 @@ type API interface {
 	GetRecurringEvents(ctx context.Context) (Events, error)
 	GetRecurringEventsWithInstancesForWeeks(ctx context.Context, weeks int) (Events, error)
 	GetPhoto(ctx context.Context, id string) (*Photo, error)
+	GetName(ctx context.Context, id string) (string, error)
 }

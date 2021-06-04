@@ -26,6 +26,7 @@ var cli struct {
 	} `cmd:""`
 	Person struct {
 		Photo command.Photo `cmd:"" help:"Get User Photo for ID"`
+		Name  command.Name  `cmd:"" help:"Get User Name for ID"`
 	} `cmd:"" aliases:"people"`
 }
 

@@ -16,6 +16,16 @@ func GetFileContentType(b []byte) string {
 	contentType := http.DetectContentType(buffer)
 	return contentType
 }
+func (a *API) GetName(ctx context.Context, id string) (string, error) {
+	u, err := a.Client.Users().ID(id).Request().Get(ctx)
+
+	if err != nil {
+		log.Println("unable to get user details")
+		return "", err
+	}
+
+	return *u.DisplayName, nil
+}
 
 func (a *API) GetPhoto(ctx context.Context, id string) (*gabby.Photo, error) {
 

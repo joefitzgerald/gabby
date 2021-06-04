@@ -22,5 +22,8 @@ Commands:
   person photo <ids> ...
     Get User Photo for ID
 
-Run "gabby <command> --help" for more information on a command
+  person name <ids> ...
+    Get User Name for ID
+
+Run "gabby <command> --help" for more information on a command.
 ```
