@@ -28,6 +28,7 @@ var cli struct {
 		Photo command.Photo `cmd:"" help:"Get User Photo for ID"`
 		Name  command.Name  `cmd:"" help:"Get User Name for ID"`
 	} `cmd:"" aliases:"people"`
+	Members command.Members  `cmd:"" help:"Get Members for group ID"`
 }
 
 func main() {
