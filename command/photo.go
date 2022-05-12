@@ -32,7 +32,7 @@ func (p *Photo) Run(ctx Context, api gabby.API, w io.Writer) error {
 
 		outPath := filepath.Join(p.OutputDirectory, photo.SuggestedFilename())
 
-		if err := os.WriteFile(outPath, photo.Data, 0555); err != nil {
+		if err := os.WriteFile(outPath, photo.Data, 0666); err != nil {
 			log.Fatalf("Unable to write file '%s'", outPath)
 
 		}
