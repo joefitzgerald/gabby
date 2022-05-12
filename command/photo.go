@@ -13,7 +13,7 @@ import (
 type Photo struct {
 	IDs             []string `arg:"" name:"ids" help:"IDs to retrieve photos for"`
 	OutputDirectory string   `type:"path" default:"./"`
-	Cropped         bool     `default:"false"`
+	CropCircle      bool     `default:"false"`
 	CropWidth       int      `default:"200"`
 }
 
@@ -26,8 +26,8 @@ func (p *Photo) Run(ctx Context, api gabby.API, w io.Writer) error {
 			return err
 		}
 
-		if p.Cropped {
-			photo = photo.Cropped(p.CropWidth)
+		if p.CropCircle {
+			photo = photo.CropCircle(p.CropWidth)
 		}
 
 		outPath := filepath.Join(p.OutputDirectory, photo.SuggestedFilename())

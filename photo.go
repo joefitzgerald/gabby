@@ -39,7 +39,7 @@ func (c *circle) At(x, y int) color.Color {
 	return color.Alpha{0}
 }
 
-func (p *Photo) Cropped(width int) *Photo {
+func (p *Photo) CropCircle(width int) *Photo {
 	img, _, _ := image.Decode(bytes.NewReader(p.Data))
 
 	analyzer := smartcrop.NewAnalyzer(nfnt.NewDefaultResizer())
