@@ -1,6 +1,7 @@
 package command
 
 import (
+	"bufio"
 	"context"
 	"io"
 	"log"
@@ -11,15 +12,26 @@ import (
 )
 
 type Photo struct {
-	IDs             []string `arg:"" name:"ids" help:"IDs to retrieve photos for"`
+	FromFile        *os.File `help:"read ids from a file, specify stdin with -"`
+	IDs             []string `arg:"" name:"ids" help:"IDs to retrieve photos for" optional:""`
 	OutputDirectory string   `type:"path" default:"./"`
 	CropCircle      bool     `default:"false"`
 	CropWidth       int      `default:"200"`
 }
 
 func (p *Photo) Run(ctx Context, api gabby.API, w io.Writer) error {
+	var ids []string
 
-	for _, id := range p.IDs {
+	ids = append(ids, p.IDs...)
+
+	if p.FromFile != nil {
+		scanner := bufio.NewScanner(p.FromFile)
+		for scanner.Scan() {
+			ids = append(ids, scanner.Text())
+		}
+	}
+
+	for _, id := range ids {
 		photo, err := api.GetPhoto(context.Background(), id)
 		if err != nil {
 			log.Printf("Unable to process photo for ID '%s'", id)
