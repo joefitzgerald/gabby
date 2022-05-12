@@ -4,7 +4,7 @@ Gabby is a helpful assistant for your organization's directory and calendar syst
 
 ## Installing
 
-Gabby is written in Go. You can install Gabby by running: `go install github.com/joefitzgerald/gabby@latest`.
+Gabby is written in Go. You can install Gabby by running: `go install github.com/joefitzgerald/gabby/cmd/gabby@latest`.
 
 ## Usage
 
