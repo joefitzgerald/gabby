@@ -7,6 +7,7 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"github.com/joefitzgerald/gabby"
 )
@@ -27,7 +28,13 @@ func (p *Photo) Run(ctx Context, api gabby.API, w io.Writer) error {
 	if p.FromFile != nil {
 		scanner := bufio.NewScanner(p.FromFile)
 		for scanner.Scan() {
-			ids = append(ids, scanner.Text())
+			sep := strings.Split(scanner.Text(), ",")
+			for i := range sep {
+				id := strings.TrimSpace(sep[i])
+				if len(id) > 0 {
+					ids = append(ids, id)
+				}
+			}
 		}
 	}
 
