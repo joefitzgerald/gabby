@@ -22,6 +22,34 @@ type FakeAPI struct {
 		result1 string
 		result2 error
 	}
+	GetNameStub        func(context.Context, string) (string, error)
+	getNameMutex       sync.RWMutex
+	getNameArgsForCall []struct {
+		arg1 context.Context
+		arg2 string
+	}
+	getNameReturns struct {
+		result1 string
+		result2 error
+	}
+	getNameReturnsOnCall map[int]struct {
+		result1 string
+		result2 error
+	}
+	GetPhotoStub        func(context.Context, string) (*gabby.Photo, error)
+	getPhotoMutex       sync.RWMutex
+	getPhotoArgsForCall []struct {
+		arg1 context.Context
+		arg2 string
+	}
+	getPhotoReturns struct {
+		result1 *gabby.Photo
+		result2 error
+	}
+	getPhotoReturnsOnCall map[int]struct {
+		result1 *gabby.Photo
+		result2 error
+	}
 	GetRecurringEventsStub        func(context.Context) (gabby.Events, error)
 	getRecurringEventsMutex       sync.RWMutex
 	getRecurringEventsArgsForCall []struct {
@@ -113,6 +141,136 @@ func (fake *FakeAPI) GetMeReturnsOnCall(i int, result1 string, result2 error) {
 	}
 	fake.getMeReturnsOnCall[i] = struct {
 		result1 string
+		result2 error
+	}{result1, result2}
+}
+
+func (fake *FakeAPI) GetName(arg1 context.Context, arg2 string) (string, error) {
+	fake.getNameMutex.Lock()
+	ret, specificReturn := fake.getNameReturnsOnCall[len(fake.getNameArgsForCall)]
+	fake.getNameArgsForCall = append(fake.getNameArgsForCall, struct {
+		arg1 context.Context
+		arg2 string
+	}{arg1, arg2})
+	stub := fake.GetNameStub
+	fakeReturns := fake.getNameReturns
+	fake.recordInvocation("GetName", []interface{}{arg1, arg2})
+	fake.getNameMutex.Unlock()
+	if stub != nil {
+		return stub(arg1, arg2)
+	}
+	if specificReturn {
+		return ret.result1, ret.result2
+	}
+	return fakeReturns.result1, fakeReturns.result2
+}
+
+func (fake *FakeAPI) GetNameCallCount() int {
+	fake.getNameMutex.RLock()
+	defer fake.getNameMutex.RUnlock()
+	return len(fake.getNameArgsForCall)
+}
+
+func (fake *FakeAPI) GetNameCalls(stub func(context.Context, string) (string, error)) {
+	fake.getNameMutex.Lock()
+	defer fake.getNameMutex.Unlock()
+	fake.GetNameStub = stub
+}
+
+func (fake *FakeAPI) GetNameArgsForCall(i int) (context.Context, string) {
+	fake.getNameMutex.RLock()
+	defer fake.getNameMutex.RUnlock()
+	argsForCall := fake.getNameArgsForCall[i]
+	return argsForCall.arg1, argsForCall.arg2
+}
+
+func (fake *FakeAPI) GetNameReturns(result1 string, result2 error) {
+	fake.getNameMutex.Lock()
+	defer fake.getNameMutex.Unlock()
+	fake.GetNameStub = nil
+	fake.getNameReturns = struct {
+		result1 string
+		result2 error
+	}{result1, result2}
+}
+
+func (fake *FakeAPI) GetNameReturnsOnCall(i int, result1 string, result2 error) {
+	fake.getNameMutex.Lock()
+	defer fake.getNameMutex.Unlock()
+	fake.GetNameStub = nil
+	if fake.getNameReturnsOnCall == nil {
+		fake.getNameReturnsOnCall = make(map[int]struct {
+			result1 string
+			result2 error
+		})
+	}
+	fake.getNameReturnsOnCall[i] = struct {
+		result1 string
+		result2 error
+	}{result1, result2}
+}
+
+func (fake *FakeAPI) GetPhoto(arg1 context.Context, arg2 string) (*gabby.Photo, error) {
+	fake.getPhotoMutex.Lock()
+	ret, specificReturn := fake.getPhotoReturnsOnCall[len(fake.getPhotoArgsForCall)]
+	fake.getPhotoArgsForCall = append(fake.getPhotoArgsForCall, struct {
+		arg1 context.Context
+		arg2 string
+	}{arg1, arg2})
+	stub := fake.GetPhotoStub
+	fakeReturns := fake.getPhotoReturns
+	fake.recordInvocation("GetPhoto", []interface{}{arg1, arg2})
+	fake.getPhotoMutex.Unlock()
+	if stub != nil {
+		return stub(arg1, arg2)
+	}
+	if specificReturn {
+		return ret.result1, ret.result2
+	}
+	return fakeReturns.result1, fakeReturns.result2
+}
+
+func (fake *FakeAPI) GetPhotoCallCount() int {
+	fake.getPhotoMutex.RLock()
+	defer fake.getPhotoMutex.RUnlock()
+	return len(fake.getPhotoArgsForCall)
+}
+
+func (fake *FakeAPI) GetPhotoCalls(stub func(context.Context, string) (*gabby.Photo, error)) {
+	fake.getPhotoMutex.Lock()
+	defer fake.getPhotoMutex.Unlock()
+	fake.GetPhotoStub = stub
+}
+
+func (fake *FakeAPI) GetPhotoArgsForCall(i int) (context.Context, string) {
+	fake.getPhotoMutex.RLock()
+	defer fake.getPhotoMutex.RUnlock()
+	argsForCall := fake.getPhotoArgsForCall[i]
+	return argsForCall.arg1, argsForCall.arg2
+}
+
+func (fake *FakeAPI) GetPhotoReturns(result1 *gabby.Photo, result2 error) {
+	fake.getPhotoMutex.Lock()
+	defer fake.getPhotoMutex.Unlock()
+	fake.GetPhotoStub = nil
+	fake.getPhotoReturns = struct {
+		result1 *gabby.Photo
+		result2 error
+	}{result1, result2}
+}
+
+func (fake *FakeAPI) GetPhotoReturnsOnCall(i int, result1 *gabby.Photo, result2 error) {
+	fake.getPhotoMutex.Lock()
+	defer fake.getPhotoMutex.Unlock()
+	fake.GetPhotoStub = nil
+	if fake.getPhotoReturnsOnCall == nil {
+		fake.getPhotoReturnsOnCall = make(map[int]struct {
+			result1 *gabby.Photo
+			result2 error
+		})
+	}
+	fake.getPhotoReturnsOnCall[i] = struct {
+		result1 *gabby.Photo
 		result2 error
 	}{result1, result2}
 }
@@ -251,6 +409,10 @@ func (fake *FakeAPI) Invocations() map[string][][]interface{} {
 	defer fake.invocationsMutex.RUnlock()
 	fake.getMeMutex.RLock()
 	defer fake.getMeMutex.RUnlock()
+	fake.getNameMutex.RLock()
+	defer fake.getNameMutex.RUnlock()
+	fake.getPhotoMutex.RLock()
+	defer fake.getPhotoMutex.RUnlock()
 	fake.getRecurringEventsMutex.RLock()
 	defer fake.getRecurringEventsMutex.RUnlock()
 	fake.getRecurringEventsWithInstancesForWeeksMutex.RLock()
