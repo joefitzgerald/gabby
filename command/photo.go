@@ -42,18 +42,18 @@ func (p *Photo) Run(ctx Context, api gabby.API, w io.Writer) error {
 		photo, err := api.GetPhoto(context.Background(), id)
 		if err != nil {
 			log.Printf("Unable to process photo for ID '%s'", id)
-			return err
-		}
+		} else {
 
-		if p.CropCircle {
-			photo = photo.CropCircle(p.CropWidth)
-		}
+			if p.CropCircle {
+				photo = photo.CropCircle(p.CropWidth)
+			}
 
-		outPath := filepath.Join(p.OutputDirectory, photo.SuggestedFilename())
+			outPath := filepath.Join(p.OutputDirectory, photo.SuggestedFilename())
 
-		if err := os.WriteFile(outPath, photo.Data, 0666); err != nil {
-			log.Fatalf("Unable to write file '%s'", outPath)
+			if err := os.WriteFile(outPath, photo.Data, 0666); err != nil {
+				log.Fatalf("Unable to write file '%s'", outPath)
 
+			}
 		}
 	}
 	return nil
