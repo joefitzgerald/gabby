@@ -7,6 +7,7 @@ import (
 	"image/draw"
 	"image/png"
 
+	"github.com/llgcode/draw2d/draw2dimg"
 	"github.com/muesli/smartcrop"
 	"github.com/muesli/smartcrop/nfnt"
 	"github.com/nfnt/resize"
@@ -37,6 +38,60 @@ func (c *circle) At(x, y int) color.Color {
 		return color.Alpha{255}
 	}
 	return color.Alpha{0}
+}
+
+func RoundRect(path draw2dimg.GraphicContext, x1, y1, x2, y2, arcWidth, arcHeight float64) {
+	arcWidth = arcWidth / 2
+	arcHeight = arcHeight / 2
+	path.MoveTo(x1, y1+arcHeight)
+	path.QuadCurveTo(x1, y1, x1+arcWidth, y1)
+	path.LineTo(x2-arcWidth, y1)
+	path.QuadCurveTo(x2, y1, x2, y1+arcHeight)
+	path.LineTo(x2, y2-arcHeight)
+	path.QuadCurveTo(x2, y2, x2-arcWidth, y2)
+	path.LineTo(x1+arcWidth, y2)
+	path.QuadCurveTo(x1, y2, x1, y2-arcHeight)
+	path.Close()
+}
+
+func (p *Photo) CropRoundRect(width int) *Photo {
+	img, _, _ := image.Decode(bytes.NewReader(p.Data))
+
+	analyzer := smartcrop.NewAnalyzer(nfnt.NewDefaultResizer())
+	topCrop, _ := analyzer.FindBestCrop(img, 100, 100)
+
+	// The crop will have the requested aspect ratio, but you need to copy/scale it yourself
+
+	type SubImager interface {
+		SubImage(r image.Rectangle) image.Image
+	}
+	croppedimg := img.(SubImager).SubImage(topCrop)
+	boof := resize.Resize(uint(width), 0, croppedimg, resize.Lanczos3)
+
+	height := width
+
+	upLeft := image.Point{0, 0}
+	lowRight := image.Point{width, height}
+
+	img2 := image.NewRGBA(image.Rectangle{upLeft, lowRight})
+	mask := image.NewRGBA(image.Rectangle{upLeft, lowRight})
+	gc := draw2dimg.NewGraphicContext(mask)
+
+	RoundRect(*gc, 3, 3, float64(width-3), float64(width-3), 70, 70)
+
+	gc.SetFillColor(color.Alpha{255})
+	gc.Close()
+	gc.FillStroke()
+
+	draw.DrawMask(img2, img2.Bounds(), boof, upLeft, mask, upLeft, draw.Over)
+
+	var b bytes.Buffer
+	png.Encode(&b, img2)
+	return &Photo{
+		ID:                 p.ID,
+		SuggestedExtension: ".png",
+		Data:               b.Bytes(),
+	}
 }
 
 func (p *Photo) CropCircle(width int) *Photo {
