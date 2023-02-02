@@ -54,7 +54,7 @@ func RoundRect(path draw2dimg.GraphicContext, x1, y1, x2, y2, arcWidth, arcHeigh
 	path.Close()
 }
 
-func (p *Photo) CropRoundRect(width int) *Photo {
+func (p *Photo) CropRoundRect(width int, arc float64) *Photo {
 	img, _, _ := image.Decode(bytes.NewReader(p.Data))
 
 	analyzer := smartcrop.NewAnalyzer(nfnt.NewDefaultResizer())
@@ -77,7 +77,7 @@ func (p *Photo) CropRoundRect(width int) *Photo {
 	mask := image.NewRGBA(image.Rectangle{upLeft, lowRight})
 	gc := draw2dimg.NewGraphicContext(mask)
 
-	RoundRect(*gc, 3, 3, float64(width-3), float64(width-3), 70, 70)
+	RoundRect(*gc, 3, 3, float64(width-3), float64(width-3), arc, arc)
 
 	gc.SetFillColor(color.Alpha{255})
 	gc.Close()

@@ -13,12 +13,13 @@ import (
 )
 
 type Photo struct {
-	FromFile           *os.File `help:"read ids from a file, specify stdin with -"`
-	IDs                []string `arg:"" name:"ids" help:"IDs to retrieve photos for" optional:""`
-	OutputDirectory    string   `type:"path" default:"./"`
-	CropCircle         bool     `default:"false"`
-	CropRoundRectangle bool     `default:"false"`
-	CropWidth          int      `default:"200"`
+	FromFile              *os.File `help:"read ids from a file, specify stdin with -"`
+	IDs                   []string `arg:"" name:"ids" help:"IDs to retrieve photos for" optional:""`
+	OutputDirectory       string   `type:"path" default:"./"`
+	CropCircle            bool     `default:"false"`
+	CropRoundRectangle    bool     `default:"false"`
+	CropWidth             int      `default:"200"`
+	CropRoundRectangleArc float64  `default:"70"`
 }
 
 func (p *Photo) Run(ctx Context, api gabby.API, w io.Writer) error {
@@ -48,7 +49,7 @@ func (p *Photo) Run(ctx Context, api gabby.API, w io.Writer) error {
 			if p.CropCircle {
 				photo = photo.CropCircle(p.CropWidth)
 			} else if p.CropRoundRectangle {
-				photo = photo.CropRoundRect(p.CropWidth)
+				photo = photo.CropRoundRect(p.CropWidth, p.CropRoundRectangleArc)
 			}
 
 			outPath := filepath.Join(p.OutputDirectory, photo.SuggestedFilename())
